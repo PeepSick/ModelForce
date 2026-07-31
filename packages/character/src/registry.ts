@@ -1,8 +1,8 @@
-import { readdir, stat, mkdir, writeFile, unlink } from "node:fs/promises";
+import { readdir, mkdir, writeFile, unlink } from "node:fs/promises";
 import { join } from "node:path";
 import { CharacterLoader } from "./loader.js";
 import { CharacterValidator } from "./validator.js";
-import type { CharacterManifest, CharacterValidationResult, CharacterFile } from "./manifest.js";
+import type { CharacterManifest, CharacterValidationResult } from "./manifest.js";
 
 export interface CharacterRegistryEntry {
   id: string;

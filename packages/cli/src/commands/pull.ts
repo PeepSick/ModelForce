@@ -60,7 +60,8 @@ async function download(url: string, dest: string): Promise<void> {
   if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
   const body = res.body;
   if (!body) throw new Error("No response body");
-  await pipeline(Readable.fromWeb(body as any), createWriteStream(dest));
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await pipeline(Readable.fromWeb(body as unknown as ReadableStream), createWriteStream(dest));
 }
 
 export const pullCommand = new Command("pull")
@@ -135,7 +136,7 @@ async function pullPiper(): Promise<void> {
       if (piperDir) {
         // Copy all files recursively from piper directory to bin directory
         const copyDirRecursive = async (src: string, dest: string) => {
-          const { mkdir: mkdirFn, readdir: readdirFn, stat: statFn, copyFile } = await import("node:fs/promises");
+          const { mkdir: mkdirFn, readdir: readdirFn, copyFile } = await import("node:fs/promises");
           await mkdirFn(dest, { recursive: true });
           const entries = await readdirFn(src, { withFileTypes: true });
           for (const entry of entries) {

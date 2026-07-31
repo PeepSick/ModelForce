@@ -1,5 +1,5 @@
 import { readdir, readFile, stat } from "node:fs/promises";
-import { join, extname } from "node:path";
+import { join } from "node:path";
 import { CharacterManifestSchema, type CharacterFile } from "./manifest.js";
 
 export class CharacterLoader {
