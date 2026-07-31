@@ -1,0 +1,28 @@
+﻿{
+  "name": "modelforce",
+  "version": "0.1.0",
+  "private": true,
+  "description": "ModelForce Voice Ecosystem - Universal TTS Runtime, Registry & Character Platform",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/modelforce/modelforce"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "packageManager": "pnpm@9.1.0",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "clean": "turbo run clean",
+    "format": "prettier --write \"packages/*/src/**/*.ts\""
+  },
+  "devDependencies": {
+    "turbo": "^2.0.0",
+    "prettier": "^3.2.0",
+    "typescript": "^5.4.0"
+  }
+}
