@@ -6,7 +6,7 @@ export const modelsCommand = new Command("models")
     new Command("list")
       .description("List installed models")
       .option("--provider <provider>", "Filter by provider")
-      .action(async (options) => {
+      .action(async (_options) => {
         console.log("Installed models:");
         console.log("  (no models installed)");
       })

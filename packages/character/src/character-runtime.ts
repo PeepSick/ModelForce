@@ -1,10 +1,5 @@
-import {
+import type {
   Character,
-  PersonaProfile,
-  SkillProfile,
-  ToolPermissions,
-  AvatarProfile,
-  MemoryProfile,
 } from "@modelforce/core";
 import { SpeechRuntime } from "@modelforce/speech";
 

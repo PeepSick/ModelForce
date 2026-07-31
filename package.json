@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "modelforce",
   "version": "0.1.0",
   "private": true,
@@ -7,7 +7,7 @@
     "type": "git",
     "url": "https://github.com/modelforce/modelforce"
   },
-  "license": "MIT",
+  "license": "MPL-2.0",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -15,7 +15,8 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "lint": "turbo run lint",
+    "lint": "eslint packages/*/src/**/*.ts",
+    "lint:fix": "eslint packages/*/src/**/*.ts --fix",
     "test": "turbo run test",
     "clean": "turbo run clean",
     "format": "prettier --write \"packages/*/src/**/*.ts\""
@@ -23,6 +24,10 @@
   "devDependencies": {
     "turbo": "^2.0.0",
     "prettier": "^3.2.0",
-    "typescript": "^5.4.0"
+    "typescript": "^5.4.0",
+    "eslint": "^8.56.0",
+    "@typescript-eslint/parser": "^6.19.0",
+    "@typescript-eslint/eslint-plugin": "^6.19.0"
   }
 }
+

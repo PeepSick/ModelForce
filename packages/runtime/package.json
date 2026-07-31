@@ -14,6 +14,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
+    "test": "npx vitest run",
     "clean": "rm -rf dist"
   },
   "dependencies": {
@@ -21,6 +22,8 @@
   },
   "devDependencies": {
     "@types/node": "^20.19.43",
-    "typescript": "^5.4.0"
-  }
+    "typescript": "^5.4.0",
+    "vitest": "^1.0.0"
+  },
+  "license": "MPL-2.0"
 }

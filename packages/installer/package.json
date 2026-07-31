@@ -17,10 +17,12 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@modelforce/core": "workspace:*","@modelforce/registry": "workspace:*"
+    "@modelforce/core": "workspace:*",
+    "@modelforce/registry": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.19.43",
     "typescript": "^5.4.0"
-  }
+  },
+  "license": "MPL-2.0"
 }

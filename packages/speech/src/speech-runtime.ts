@@ -1,10 +1,7 @@
-import {
+import type {
   TTSProvider,
-  SynthesizeOptions,
-  AudioChunk,
   HealthStatus,
   VoiceInfo,
-  ProviderCapability,
   RuntimePolicy,
   SynthesisRequest,
   SynthesisResult,

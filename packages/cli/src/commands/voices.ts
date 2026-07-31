@@ -1,37 +1,31 @@
 import { Command } from "commander";
+import { PiperProcessAdapter } from "@modelforce/provider-piper";
+import { getVoicesDir, loadConfig } from "../config.js";
 
 export const voicesCommand = new Command("voices")
-  .description("Manage voice registry")
-  .addCommand(
-    new Command("list")
-      .description("List registered voices")
-      .option("--json", "Output as JSON")
-      .action(async (options) => {
-        console.log("Registered voices:");
-        console.log("  (no voices registered)");
-      })
-  )
-  .addCommand(
-    new Command("info")
-      .description("Show voice details")
-      .argument("<voice-id>", "Voice ID")
-      .action(async (voiceId) => {
-        console.log("Voice info: " + voiceId);
-      })
-  )
-  .addCommand(
-    new Command("add")
-      .description("Register a voice pack")
-      .argument("<pack-path>", "Path to voice pack directory")
-      .action(async (packPath) => {
-        console.log("Adding voice from: " + packPath);
-      })
-  )
-  .addCommand(
-    new Command("remove")
-      .description("Unregister a voice")
-      .argument("<voice-id>", "Voice ID")
-      .action(async (voiceId) => {
-        console.log("Removing voice: " + voiceId);
-      })
-  );
+  .description("List installed voices")
+  .action(async () => {
+    const config = await loadConfig();
+    const adapter = new PiperProcessAdapter({
+      binPath: "",
+      voicesDir: getVoicesDir(),
+    });
+
+    const voices = await adapter.listVoices();
+
+    if (voices.length === 0) {
+      console.log("No voices installed.");
+      console.log("Run: modelforce pull voice/piper/<voice-id>");
+      return;
+    }
+
+    console.log("Installed voices:\n");
+    for (const voice of voices) {
+      const isDefault = config.defaultVoice === voice.id;
+      const marker = isDefault ? " (default)" : "";
+      console.log(`  ${voice.id}${marker}`);
+      console.log(`    Language: ${voice.language}`);
+      console.log(`    Gender: ${voice.gender}`);
+      console.log();
+    }
+  });

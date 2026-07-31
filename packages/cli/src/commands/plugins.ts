@@ -6,7 +6,7 @@ export const pluginsCommand = new Command("plugins")
     new Command("list")
       .description("List installed plugins")
       .option("--type <type>", "Filter by plugin type")
-      .action(async (options) => {
+      .action(async (_options) => {
         console.log("Installed plugins:");
         console.log("  (no plugins installed)");
       })

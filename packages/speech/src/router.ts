@@ -16,7 +16,7 @@ export class Router {
     this.providers.delete(providerId);
   }
 
-  selectProvider(request: SynthesisRequest | StreamRequest): TTSProvider | null {
+  selectProvider(_request: SynthesisRequest | StreamRequest): TTSProvider | null {
     const available = Array.from(this.providers.values());
 
     if (available.length === 0) {

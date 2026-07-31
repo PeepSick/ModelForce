@@ -1,6 +1,4 @@
-import * as fs from "fs/promises";
-import * as path from "path";
-import {
+import type {
   ProviderMeta,
   ArtifactMeta,
   ArtifactType,
@@ -8,7 +6,7 @@ import {
   VoiceMeta,
   CharacterMeta,
 } from "@modelforce/core";
-import { RegistryProvider, UpdateInfo } from "./registry-provider.js";
+import type { RegistryProvider, UpdateInfo } from "./registry-provider.js";
 
 export class LocalRegistry implements RegistryProvider {
   readonly type = "local" as const;
@@ -26,27 +24,27 @@ export class LocalRegistry implements RegistryProvider {
     throw new Error("Not implemented");
   }
 
-  async getProvider(id: string, version?: string): Promise<ProviderMeta> {
+  async getProvider(_id: string, _version?: string): Promise<ProviderMeta> {
     // TODO: Read from local filesystem
     throw new Error("Not implemented");
   }
 
-  async downloadProvider(id: string, version?: string): Promise<Buffer> {
+  async downloadProvider(_id: string, _version?: string): Promise<Buffer> {
     // Local registry already has files, just read them
     throw new Error("Not implemented");
   }
 
-  async listArtifacts(type: ArtifactType, filter?: ArtifactFilter): Promise<ArtifactMeta[]> {
+  async listArtifacts(_type: ArtifactType, _filter?: ArtifactFilter): Promise<ArtifactMeta[]> {
     // TODO: Read from local filesystem
     throw new Error("Not implemented");
   }
 
-  async getArtifact(type: ArtifactType, id: string, version?: string): Promise<ArtifactMeta> {
+  async getArtifact(_type: ArtifactType, _id: string, _version?: string): Promise<ArtifactMeta> {
     // TODO: Read from local filesystem
     throw new Error("Not implemented");
   }
 
-  async downloadArtifact(type: ArtifactType, id: string, version?: string): Promise<Buffer> {
+  async downloadArtifact(_type: ArtifactType, _id: string, _version?: string): Promise<Buffer> {
     // Local registry already has files, just read them
     throw new Error("Not implemented");
   }
@@ -56,12 +54,12 @@ export class LocalRegistry implements RegistryProvider {
     throw new Error("Not implemented");
   }
 
-  async getVoice(id: string, version?: string): Promise<VoiceMeta> {
+  async getVoice(_id: string, _version?: string): Promise<VoiceMeta> {
     // TODO: Read from local filesystem
     throw new Error("Not implemented");
   }
 
-  async downloadVoice(id: string, version?: string): Promise<Buffer> {
+  async downloadVoice(_id: string, _version?: string): Promise<Buffer> {
     // Local registry already has files, just read them
     throw new Error("Not implemented");
   }
@@ -71,12 +69,12 @@ export class LocalRegistry implements RegistryProvider {
     throw new Error("Not implemented");
   }
 
-  async getCharacter(id: string, version?: string): Promise<CharacterMeta> {
+  async getCharacter(_id: string, _version?: string): Promise<CharacterMeta> {
     // TODO: Read from local filesystem
     throw new Error("Not implemented");
   }
 
-  async downloadCharacter(id: string, version?: string): Promise<Buffer> {
+  async downloadCharacter(_id: string, _version?: string): Promise<Buffer> {
     // Local registry already has files, just read them
     throw new Error("Not implemented");
   }

@@ -17,10 +17,21 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@modelforce/core": "workspace:*","commander": "^12.0.0","chalk": "^5.3.0","ora": "^8.0.0"
+    "@modelforce/core": "workspace:*",
+    "@modelforce/speech": "workspace:*",
+    "@modelforce/installer": "workspace:*",
+    "@modelforce/registry": "workspace:*",
+    "@modelforce/character": "workspace:*",
+    "@modelforce/provider-piper": "workspace:*",
+    "@modelforce/provider-kokoro": "workspace:*",
+    "@modelforce/provider-xtts": "workspace:*",
+    "commander": "^12.0.0",
+    "chalk": "^5.3.0",
+    "ora": "^8.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.19.43",
     "typescript": "^5.4.0"
-  }
+  },
+  "license": "MPL-2.0"
 }

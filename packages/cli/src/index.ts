@@ -16,6 +16,7 @@ import { benchmarkCommand } from "./commands/benchmark.js";
 import { eventsCommand } from "./commands/events.js";
 import { doctorCommand } from "./commands/doctor.js";
 import { configCommand } from "./commands/config.js";
+import { synthesizeCommand } from "./commands/synthesize.js";
 
 const program = new Command();
 
@@ -24,20 +25,21 @@ program
   .description("ModelForce Voice Ecosystem CLI")
   .version("0.1.0");
 
-program.addCommand(searchCommand);
 program.addCommand(pullCommand);
 program.addCommand(installCommand);
 program.addCommand(uninstallCommand);
+program.addCommand(voicesCommand);
+program.addCommand(synthesizeCommand);
+program.addCommand(benchmarkCommand);
+program.addCommand(doctorCommand);
+program.addCommand(searchCommand);
 program.addCommand(statusCommand);
 program.addCommand(registryCommand);
 program.addCommand(pluginsCommand);
 program.addCommand(modelsCommand);
-program.addCommand(voicesCommand);
 program.addCommand(charactersCommand);
 program.addCommand(runtimeCommand);
-program.addCommand(benchmarkCommand);
 program.addCommand(eventsCommand);
-program.addCommand(doctorCommand);
 program.addCommand(configCommand);
 
 program.parse();

@@ -4,3 +4,9 @@ dist/
 .DS_Store
 *.log
 .turbo/
+.cache/
+coverage/
+hello.wav
+*.onnx
+*.bin
+*.pth

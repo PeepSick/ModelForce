@@ -1,3 +1,5 @@
+import { HealthStatus } from "./provider.js";
+
 // Runtime Configuration
 export interface RuntimeConfig {
   // Queue
@@ -114,3 +116,59 @@ export interface RuntimeMetrics {
 
 // Runtime Policy
 export type RuntimePolicy = "offline-first" | "quality-first" | "latency-first" | "cpu-only";
+
+// Context Logger
+export interface ContextLogger {
+  info(message: string, meta?: Record<string, unknown>): void;
+  warn(message: string, meta?: Record<string, unknown>): void;
+  error(message: string, meta?: Record<string, unknown>): void;
+  debug(message: string, meta?: Record<string, unknown>): void;
+}
+
+// Context Metrics
+export interface ContextMetrics {
+  incrementCounter(name: string, value?: number): void;
+  recordHistogram(name: string, value: number): void;
+  setGauge(name: string, value: number): void;
+}
+
+// Runtime Context
+export interface RuntimeContext {
+  readonly requestId: string;
+  readonly traceId: string;
+  readonly tenantId?: string;
+  readonly userId?: string;
+  readonly sessionId?: string;
+  readonly priority: RequestPriority;
+  readonly timeoutMs: number;
+  readonly cancellationToken: AbortSignal;
+  readonly logger: ContextLogger;
+  readonly metrics: ContextMetrics;
+}
+
+// Runtime State
+export type RuntimeState =
+  | "init"
+  | "loading"
+  | "loaded"
+  | "warmup"
+  | "healthy"
+  | "busy"
+  | "recovering"
+  | "degraded"
+  | "stopping"
+  | "stopped"
+  | "failed";
+
+// Runtime Interface
+export interface Runtime<TRequest, TResponse> {
+  readonly id: string;
+  readonly state: RuntimeState;
+
+  execute(ctx: RuntimeContext, request: TRequest): Promise<TResponse>;
+  health(): Promise<HealthStatus>;
+  warmup(): Promise<void>;
+  shutdown(): Promise<void>;
+
+  onStateChange(listener: (state: RuntimeState) => void): void;
+}

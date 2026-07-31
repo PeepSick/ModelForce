@@ -1,5 +1,5 @@
-import { RegistryProvider } from "@modelforce/registry";
-import { ArtifactType, ProviderMeta, ArtifactMeta } from "@modelforce/core";
+import type { RegistryProvider } from "@modelforce/registry";
+import type { ArtifactType } from "@modelforce/core";
 import { verifyChecksum } from "./checksum.js";
 
 export interface PullResult {

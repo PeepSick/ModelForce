@@ -1,6 +1,5 @@
-import { RegistryProvider } from "@modelforce/registry";
-import { ArtifactType } from "@modelforce/core";
-import { Puller, PullResult } from "./puller.js";
+import type { RegistryProvider } from "@modelforce/registry";
+import { Puller, type PullResult } from "./puller.js";
 
 export interface InstallResult {
   id: string;
@@ -56,7 +55,7 @@ export class Installer {
     };
   }
 
-  async uninstall(type: "provider" | "model" | "voice" | "character", id: string): Promise<void> {
+  async uninstall(_type: "provider" | "model" | "voice" | "character", _id: string): Promise<void> {
     // TODO: Implement
   }
 

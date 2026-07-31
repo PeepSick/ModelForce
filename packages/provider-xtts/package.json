@@ -1,0 +1,27 @@
+{
+  "name": "@modelforce/provider-xtts",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "XTTS TTS provider for ModelForce",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@modelforce/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.43",
+    "typescript": "^5.4.0"
+  },
+  "license": "MPL-2.0"
+}

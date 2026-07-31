@@ -17,7 +17,7 @@ export const runtimeCommand = new Command("runtime")
     new Command("metrics")
       .description("Show runtime metrics")
       .option("--json", "Output as JSON")
-      .action(async (options) => {
+      .action(async (_options) => {
         console.log("Runtime Metrics:");
         console.log("  Avg Latency: 0ms");
         console.log("  P95 Latency: 0ms");

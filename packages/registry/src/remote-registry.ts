@@ -1,4 +1,4 @@
-import {
+import type {
   ProviderMeta,
   ArtifactMeta,
   ArtifactType,
@@ -6,7 +6,7 @@ import {
   VoiceMeta,
   CharacterMeta,
 } from "@modelforce/core";
-import { RegistryProvider, UpdateInfo } from "./registry-provider.js";
+import type { RegistryProvider, UpdateInfo } from "./registry-provider.js";
 
 export class RemoteRegistry implements RegistryProvider {
   readonly type = "remote" as const;
@@ -24,28 +24,28 @@ export class RemoteRegistry implements RegistryProvider {
     throw new Error("Not implemented");
   }
 
-  async getProvider(id: string, version?: string): Promise<ProviderMeta> {
+  async getProvider(_id: string, _version?: string): Promise<ProviderMeta> {
     // TODO: Implement HTTP fetch
     throw new Error("Not implemented");
   }
 
-  async downloadProvider(id: string, version?: string): Promise<Buffer> {
-    // TODO: Implement HTTP download
-    throw new Error("Not implemented");
-  }
-
-  async listArtifacts(type: ArtifactType, filter?: ArtifactFilter): Promise<ArtifactMeta[]> {
+  async downloadProvider(_id: string, _version?: string): Promise<Buffer> {
     // TODO: Implement HTTP fetch
     throw new Error("Not implemented");
   }
 
-  async getArtifact(type: ArtifactType, id: string, version?: string): Promise<ArtifactMeta> {
+  async listArtifacts(_type: ArtifactType, _filter?: ArtifactFilter): Promise<ArtifactMeta[]> {
     // TODO: Implement HTTP fetch
     throw new Error("Not implemented");
   }
 
-  async downloadArtifact(type: ArtifactType, id: string, version?: string): Promise<Buffer> {
-    // TODO: Implement HTTP download
+  async getArtifact(_type: ArtifactType, _id: string, _version?: string): Promise<ArtifactMeta> {
+    // TODO: Implement HTTP fetch
+    throw new Error("Not implemented");
+  }
+
+  async downloadArtifact(_type: ArtifactType, _id: string, _version?: string): Promise<Buffer> {
+    // TODO: Implement HTTP fetch
     throw new Error("Not implemented");
   }
 
@@ -54,13 +54,13 @@ export class RemoteRegistry implements RegistryProvider {
     throw new Error("Not implemented");
   }
 
-  async getVoice(id: string, version?: string): Promise<VoiceMeta> {
+  async getVoice(_id: string, _version?: string): Promise<VoiceMeta> {
     // TODO: Implement HTTP fetch
     throw new Error("Not implemented");
   }
 
-  async downloadVoice(id: string, version?: string): Promise<Buffer> {
-    // TODO: Implement HTTP download
+  async downloadVoice(_id: string, _version?: string): Promise<Buffer> {
+    // TODO: Implement HTTP fetch
     throw new Error("Not implemented");
   }
 
@@ -69,18 +69,18 @@ export class RemoteRegistry implements RegistryProvider {
     throw new Error("Not implemented");
   }
 
-  async getCharacter(id: string, version?: string): Promise<CharacterMeta> {
+  async getCharacter(_id: string, _version?: string): Promise<CharacterMeta> {
     // TODO: Implement HTTP fetch
     throw new Error("Not implemented");
   }
 
-  async downloadCharacter(id: string, version?: string): Promise<Buffer> {
-    // TODO: Implement HTTP download
+  async downloadCharacter(_id: string, _version?: string): Promise<Buffer> {
+    // TODO: Implement HTTP fetch
     throw new Error("Not implemented");
   }
 
   async checkUpdates(): Promise<UpdateInfo[]> {
     // TODO: Implement HTTP fetch
-    throw new Error("Not implemented");
+    return [];
   }
 }

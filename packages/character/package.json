@@ -13,14 +13,19 @@
   },
   "scripts": {
     "build": "tsc",
+    "test": "npx vitest run",
     "dev": "tsc --watch",
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@modelforce/core": "workspace:*","@modelforce/speech": "workspace:*"
+    "@modelforce/core": "workspace:*",
+    "@modelforce/speech": "workspace:*",
+    "zod": "^3.23.0"
   },
   "devDependencies": {
     "@types/node": "^20.19.43",
-    "typescript": "^5.4.0"
-  }
+    "typescript": "^5.4.0",
+    "vitest": "^1.6.0"
+  },
+  "license": "MPL-2.0"
 }
