@@ -103,6 +103,8 @@ jobs:
           Write-Host "OS Build: $((Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion').CurrentBuild)"
           Write-Host "UBR: $((Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion').UBR)"
           systeminfo | Select-String "OS Name|OS Version|System Type"
+          Write-Host "=== Processor ==="
+          echo $env:PROCESSOR_ARCHITECTURE
           Write-Host "=== UCRT Version ==="
           $ucrt = Get-Item "C:\Windows\System32\ucrtbase.dll"
           Write-Host "ucrtbase.dll: $($ucrt.VersionInfo.FileVersion) ($($ucrt.Length) bytes)"
@@ -154,6 +156,16 @@ jobs:
           $inputFile = "$env:TEMP\piper-input.txt"
           Set-Content -Path $inputFile -Value "Hello world, this is a test" -Encoding ASCII
           
+          Write-Host "=== Piper Location ==="
+          Write-Host "exe: $($piperExe.FullName)"
+          Write-Host "model: $env:USERPROFILE\.modelforce\voices\piper\en_US-lessac-medium.onnx"
+          Write-Host "DLLs in bin:"
+          Get-ChildItem "$env:USERPROFILE\.modelforce\bin" -Recurse -Filter "*.dll" | ForEach-Object {
+            Write-Host "  $($_.Name) - $($_.Length) bytes - $($_.VersionInfo.FileVersion)"
+          }
+          
+          Write-Host ""
+          Write-Host "=== Running synthesis ==="
           $process = Start-Process -FilePath $piperExe.FullName `
             -ArgumentList "--model", "$env:USERPROFILE\.modelforce\voices\piper\en_US-lessac-medium.onnx", `
                           "--config", "$env:USERPROFILE\.modelforce\voices\piper\en_US-lessac-medium.onnx.json", `
@@ -169,12 +181,28 @@ jobs:
           Write-Host "STDERR:"
           Get-Content "$env:TEMP\piper-stderr.txt" -ErrorAction SilentlyContinue
           
+          Write-Host ""
+          Write-Host "=== Output verification ==="
           if (Test-Path "$env:USERPROFILE\.modelforce\test-output.wav") {
-            $size = (Get-Item "$env:USERPROFILE\.modelforce\test-output.wav").Length
-            Write-Host "✅ Output file created: $size bytes"
+            $file = Get-Item "$env:USERPROFILE\.modelforce\test-output.wav"
+            Write-Host "File exists: YES"
+            Write-Host "File size: $($file.Length) bytes"
+            Write-Host "File created: $($file.CreationTime)"
+            
+            if ($file.Length -gt 44) {
+              Write-Host "WAV header check: File is large enough to be a valid WAV"
+            } else {
+              Write-Host "WAV header check: File too small, likely invalid"
+            }
+            
+            if ($process.ExitCode -eq 0) {
+              Write-Host "RESULT: SUCCESS"
+            } else {
+              Write-Host "RESULT: FAILED (exit code $($process.ExitCode))"
+            }
           } else {
-            Write-Host "❌ No output file created"
-            Write-Host "Process exited with code: $($process.ExitCode)"
+            Write-Host "File exists: NO"
+            Write-Host "RESULT: FAILED - No output file"
             if ($process.ExitCode -eq -1073740791) {
               Write-Host "ERROR: STATUS_STACK_BUFFER_OVERRUN (0xC0000409)"
             }
