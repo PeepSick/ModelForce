@@ -16,7 +16,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "dev": "tsc --watch",
+    "dev": "node dist/cli.js",
     "clean": "rm -rf dist",
     "start": "node dist/cli.js"
   },
