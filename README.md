@@ -7,6 +7,10 @@
 
 Switch between Piper, Kokoro, XTTS (and more) without changing your application.
 
+Conceptually, ModelForce is for text-to-speech what LiteLLM is for language models.
+
+> ✅ Local inference · ✅ Offline · ✅ Multiple providers · ✅ CLI · ✅ SDK · ✅ REST API · ✅ Web UI
+
 ## Why?
 
 Every TTS engine has its own API, installation, configuration, and voice management.
@@ -34,7 +38,7 @@ await mf.synthesize({
 });
 ```
 
-Done. You have audio.
+Change the provider. Your code didn't.
 
 ## Works With
 
@@ -77,9 +81,7 @@ modelforce play "Hello"               # Synthesize and play
 
 - **LangChain** - Focuses on LLM chains, not TTS runtime
 - **LiteLLM** - Focuses on LLM routing, not TTS providers
-- **OpenAI SDK** - Single provider, not multi-provider abstraction
-
-ModelForce focuses specifically on runtime abstraction for text-to-speech providers.
+- **OpenAI SDK** - Designed for OpenAI services; ModelForce focuses on provider-independent TTS runtimes
 
 ## Packages
 
