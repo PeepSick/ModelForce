@@ -51,7 +51,7 @@ jobs:
           mkdir -p ~/.modelforce/voices/piper
           cd ~/.modelforce/voices/piper
           curl -L -o en_US-lessac-medium.onnx "https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/lessac/medium/en_US-lessac-medium.onnx"
-          curl -L -o en_US-lessac-medium.json "https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/lessac/medium/en_US-lessac-medium.onnx.json"
+          curl -L -o en_US-lessac-medium.onnx.json "https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/lessac/medium/en_US-lessac-medium.onnx.json"
           ls -la
 
       - name: Test Piper synthesis
@@ -59,6 +59,7 @@ jobs:
           PIPER_BIN=$(find ~/.modelforce/bin -name "piper" -type f -executable | head -1)
           echo "Hello world, this is a test" | $PIPER_BIN \
             --model ~/.modelforce/voices/piper/en_US-lessac-medium.onnx \
+            --config ~/.modelforce/voices/piper/en_US-lessac-medium.onnx.json \
             --output_file ~/.modelforce/test-output.wav
           ls -la ~/.modelforce/test-output.wav
           file ~/.modelforce/test-output.wav
@@ -112,7 +113,7 @@ jobs:
         run: |
           New-Item -ItemType Directory -Path "$env:USERPROFILE\.modelforce\voices\piper" -Force
           Invoke-WebRequest -Uri "https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/lessac/medium/en_US-lessac-medium.onnx" -OutFile "$env:USERPROFILE\.modelforce\voices\piper\en_US-lessac-medium.onnx"
-          Invoke-WebRequest -Uri "https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/lessac/medium/en_US-lessac-medium.onnx.json" -OutFile "$env:USERPROFILE\.modelforce\voices\piper\en_US-lessac-medium.json"
+          Invoke-WebRequest -Uri "https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/lessac/medium/en_US-lessac-medium.onnx.json" -OutFile "$env:USERPROFILE\.modelforce\voices\piper\en_US-lessac-medium.onnx.json"
           Get-ChildItem "$env:USERPROFILE\.modelforce\voices\piper"
 
       - name: Test Piper synthesis
@@ -123,6 +124,7 @@ jobs:
           
           $process = Start-Process -FilePath $piperExe.FullName `
             -ArgumentList "--model", "$env:USERPROFILE\.modelforce\voices\piper\en_US-lessac-medium.onnx", `
+                          "--config", "$env:USERPROFILE\.modelforce\voices\piper\en_US-lessac-medium.onnx.json", `
                           "--output_file", "$env:USERPROFILE\.modelforce\test-output.wav" `
             -RedirectStandardInput $inputFile `
             -RedirectStandardOutput "$env:TEMP\piper-stdout.txt" `
