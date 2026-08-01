@@ -74,6 +74,9 @@ export interface CharacterData {
   voice: string;
 }
 
+import { join } from "path";
+import { homedir } from "os";
+
 /** Server configuration */
 export interface ServerConfig {
   port: number;
@@ -112,7 +115,7 @@ export const DEFAULT_SERVER_CONFIG: ServerConfig = {
     enabled: false,
   },
   storage: {
-    audioDir: "./audio",
+    audioDir: join(homedir(), ".modelforce", "audio"),
     maxFileSize: 10 * 1024 * 1024, // 10MB
   },
 };

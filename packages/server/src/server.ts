@@ -2,6 +2,7 @@ import Fastify, { type FastifyRequest, type FastifyReply } from "fastify";
 import cors from "@fastify/cors";
 import rateLimit from "@fastify/rate-limit";
 import fastifyStatic from "@fastify/static";
+import { mkdir } from "fs/promises";
 import { ModelForceClient } from "@modelforce/sdk";
 import type { ServerConfig } from "./types.js";
 import { DEFAULT_SERVER_CONFIG } from "./types.js";
@@ -32,6 +33,9 @@ export class ModelForceServer {
   }
 
   async start(): Promise<void> {
+    // Ensure audio directory exists
+    await mkdir(this.audioDir, { recursive: true });
+
     // Setup CORS
     await this.app.register(cors, this.config.cors);
 
