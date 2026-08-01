@@ -1,0 +1,174 @@
+name: Test Piper Provider
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  test-piper-linux:
+    name: Test Piper on Linux
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build packages
+        run: pnpm build
+
+      - name: Download Piper binary
+        run: |
+          mkdir -p ~/.modelforce/bin
+          cd ~/.modelforce/bin
+          curl -L -o piper.tar.gz "https://github.com/rhasspy/piper/releases/download/2023.11.14-2/piper_linux_x86_64.tar.gz"
+          tar xzf piper.tar.gz
+          chmod +x piper
+          ls -la
+
+      - name: Check Piper version
+        run: |
+          ~/.modelforce/bin/piper --version
+
+      - name: Download test voice
+        run: |
+          mkdir -p ~/.modelforce/voices/piper
+          cd ~/.modelforce/voices/piper
+          curl -L -o en_US-lessac-medium.onnx "https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/lessac/medium/en_US-lessac-medium.onnx"
+          curl -L -o en_US-lessac-medium.json "https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/lessac/medium/en_US-lessac-medium.onnx.json"
+          ls -la
+
+      - name: Test Piper synthesis
+        run: |
+          echo "Hello world, this is a test" | ~/.modelforce/bin/piper \
+            --model ~/.modelforce/voices/piper/en_US-lessac-medium.onnx \
+            --output_file ~/.modelforce/test-output.wav
+          ls -la ~/.modelforce/test-output.wav
+          file ~/.modelforce/test-output.wav
+
+      - name: Verify output
+        run: |
+          if [ -f ~/.modelforce/test-output.wav ]; then
+            echo "✅ Piper synthesis successful!"
+            echo "Output file size: $(stat -c%s ~/.modelforce/test-output.wav) bytes"
+          else
+            echo "❌ Piper synthesis failed!"
+            exit 1
+          fi
+
+  test-piper-windows:
+    name: Test Piper on Windows
+    runs-on: windows-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build packages
+        run: pnpm build
+
+      - name: Download Piper binary
+        run: |
+          New-Item -ItemType Directory -Path "$env:USERPROFILE\.modelforce\bin" -Force
+          Invoke-WebRequest -Uri "https://github.com/rhasspy/piper/releases/download/2023.11.14-2/piper_windows_amd64.zip" -OutFile "$env:TEMP\piper.zip"
+          Expand-Archive -Path "$env:TEMP\piper.zip" -DestinationPath "$env:USERPROFILE\.modelforce\bin" -Force
+          Get-ChildItem "$env:USERPROFILE\.modelforce\bin"
+
+      - name: Check Piper version
+        run: |
+          & "$env:USERPROFILE\.modelforce\bin\piper.exe" --version
+
+      - name: Download test voice
+        run: |
+          New-Item -ItemType Directory -Path "$env:USERPROFILE\.modelforce\voices\piper" -Force
+          Invoke-WebRequest -Uri "https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/lessac/medium/en_US-lessac-medium.onnx" -OutFile "$env:USERPROFILE\.modelforce\voices\piper\en_US-lessac-medium.onnx"
+          Invoke-WebRequest -Uri "https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/lessac/medium/en_US-lessac-medium.onnx.json" -OutFile "$env:USERPROFILE\.modelforce\voices\piper\en_US-lessac-medium.json"
+          Get-ChildItem "$env:USERPROFILE\.modelforce\voices\piper"
+
+      - name: Test Piper synthesis
+        run: |
+          $inputFile = "$env:TEMP\piper-input.txt"
+          Set-Content -Path $inputFile -Value "Hello world, this is a test" -Encoding ASCII
+          
+          $process = Start-Process -FilePath "$env:USERPROFILE\.modelforce\bin\piper.exe" `
+            -ArgumentList "--model", "$env:USERPROFILE\.modelforce\voices\piper\en_US-lessac-medium.onnx", `
+                          "--output_file", "$env:USERPROFILE\.modelforce\test-output.wav" `
+            -RedirectStandardInput $inputFile `
+            -RedirectStandardOutput "$env:TEMP\piper-stdout.txt" `
+            -RedirectStandardError "$env:TEMP\piper-stderr.txt" `
+            -NoNewWindow -Wait -PassThru
+          
+          Write-Host "Exit code: $($process.ExitCode)"
+          Write-Host "STDOUT:"
+          Get-Content "$env:TEMP\piper-stdout.txt" -ErrorAction SilentlyContinue
+          Write-Host "STDERR:"
+          Get-Content "$env:TEMP\piper-stderr.txt" -ErrorAction SilentlyContinue
+          
+          if (Test-Path "$env:USERPROFILE\.modelforce\test-output.wav") {
+            $size = (Get-Item "$env:USERPROFILE\.modelforce\test-output.wav").Length
+            Write-Host "✅ Output file created: $size bytes"
+          } else {
+            Write-Host "❌ No output file created"
+            Write-Host "Process exited with code: $($process.ExitCode)"
+            if ($process.ExitCode -eq -1073740791) {
+              Write-Host "ERROR: STATUS_STACK_BUFFER_OVERRUN (0xC0000409)"
+            }
+          }
+
+  test-sdk-integration:
+    name: Test SDK Integration
+    runs-on: ubuntu-latest
+    needs: test-piper-linux
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build packages
+        run: pnpm build
+
+      - name: Run SDK tests
+        run: |
+          cd packages/sdk
+          node dist/__tests__/sdk.test.js
