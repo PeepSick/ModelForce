@@ -1,5 +1,8 @@
 # ModelForce
 
+[![CI](https://github.com/PeepSick/ModelForce/actions/workflows/ci.yml/badge.svg)](https://github.com/PeepSick/ModelForce/actions)
+[![Test Piper Provider](https://github.com/PeepSick/ModelForce/actions/workflows/test-piper.yml/badge.svg)](https://github.com/PeepSick/ModelForce/actions/workflows/test-piper.yml)
+
 One runtime. Multiple TTS providers.
 
 Switch providers without changing your application.
@@ -7,8 +10,8 @@ Switch providers without changing your application.
 ## Quick Start (Development)
 
 ```bash
-git clone https://github.com/modelforce/modelforce.git
-cd modelforce
+git clone https://github.com/PeepSick/ModelForce.git
+cd ModelForce
 pnpm install
 pnpm build
 pnpm --filter @modelforce/cli start -- doctor
@@ -19,7 +22,15 @@ pnpm --filter @modelforce/cli start -- synthesize "Hello"
 
 Done. You have `hello.wav`.
 
-> **Note:** The CLI package has not been published to npm yet.
+## Web UI & Server
+
+```bash
+# Start the REST API server
+pnpm dev:server
+
+# Start the React web interface
+pnpm dev:web
+```
 
 ## Why ModelForce?
 
@@ -121,8 +132,6 @@ modelforce compare                    # Compare providers
 | `@modelforce/cli` | Command-line interface |
 | `@modelforce/runtime` | Execution engine |
 | `@modelforce/provider-piper` | Piper TTS provider |
-| `@modelforce/provider-kokoro` | Kokoro TTS provider |
-| `@modelforce/provider-xtts` | XTTS TTS provider |
 
 ## For Developers
 
@@ -167,6 +176,16 @@ npm install -g @modelforce/cli
 modelforce doctor
 modelforce pull piper
 modelforce synthesize "Hello"
+```
+
+## Testing
+
+```bash
+# Run all tests
+pnpm test
+
+# Test Piper provider specifically
+# (CI runs on both Linux and Windows)
 ```
 
 ## License

@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "description": "ModelForce Voice Ecosystem - Universal TTS Runtime, Registry & Character Platform",
-  "repository": {
+"repository": {
     "type": "git",
-    "url": "https://github.com/modelforce/modelforce"
+    "url": "https://github.com/PeepSick/ModelForce.git"
   },
   "license": "MPL-2.0",
 "engines": {
