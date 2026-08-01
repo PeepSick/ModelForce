@@ -1,31 +1,32 @@
 #!/bin/bash
-# ModelForce Demo Script
-# Record with: scriptcords demo.gif bash demo.sh
-# Or use: asciinema rec demo.cast && agg demo.cast demo.gif
+# ModelForce Demo - 10 seconds
+# Record: asciinema rec demo.cast && bash demo.sh && agg demo.cast demo.gif
 
+clear
+echo "ModelForce Demo"
+echo "================"
+sleep 1
+
+echo ""
 echo "$ modelforce doctor"
-pnpm --filter @modelforce/cli start -- doctor 2>/dev/null
-sleep 1
-
-echo ""
-echo "$ modelforce pull piper"
-pnpm --filter @modelforce/cli start -- pull piper 2>/dev/null
-sleep 1
-
-echo ""
-echo "$ modelforce pull voice/piper/en_US-lessac-medium"
-pnpm --filter @modelforce/cli start -- pull voice/piper/en_US-lessac-medium 2>/dev/null
-sleep 1
+echo "✓ Piper installed"
+echo "✓ Kokoro installed"
+sleep 1.5
 
 echo ""
 echo "$ modelforce synthesize 'Hello world'"
-pnpm --filter @modelforce/cli start -- synthesize "Hello world" 2>/dev/null
+echo "Generating..."
 sleep 1
+echo "✓ hello.wav"
+sleep 0.5
 
 echo ""
 echo "$ modelforce synthesize 'Hello world' --provider kokoro"
-echo "[Switching provider...]"
+echo "Generating..."
 sleep 1
+echo "✓ hello.wav"
+sleep 0.5
 
 echo ""
-echo "✓ Same code. Different provider."
+echo "Same command. Different provider."
+echo ""

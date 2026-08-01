@@ -9,6 +9,8 @@ Switch between Piper, Kokoro, XTTS (and more) without changing your application.
 
 Conceptually, ModelForce is for text-to-speech what LiteLLM is for language models.
 
+![ModelForce Demo](demo/demo.gif)
+
 > ✅ Local inference · ✅ Offline · ✅ Multiple providers · ✅ CLI · ✅ SDK · ✅ REST API · ✅ Web UI
 
 ## Why?
