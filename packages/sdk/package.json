@@ -1,0 +1,40 @@
+{
+  "name": "@modelforce/sdk",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "ModelForce SDK - Simple API for text-to-speech synthesis",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "test": "node --test dist/__tests__/*.test.js"
+  },
+  "dependencies": {
+    "@modelforce/core": "workspace:*",
+    "@modelforce/provider-piper": "workspace:*",
+    "@modelforce/provider-kokoro": "workspace:*",
+    "@modelforce/provider-xtts": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.43",
+    "typescript": "^5.4.0"
+  },
+  "license": "MPL-2.0",
+  "keywords": [
+    "tts",
+    "text-to-speech",
+    "voice",
+    "synthesis",
+    "piper",
+    "kokoro",
+    "xtts"
+  ]
+}

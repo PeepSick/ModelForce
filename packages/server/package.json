@@ -1,0 +1,36 @@
+{
+  "name": "@modelforce/server",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "ModelForce API Server - REST API for text-to-speech synthesis",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "bin": {
+    "modelforce-serve": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "start": "node dist/cli.js"
+  },
+  "dependencies": {
+    "@fastify/cors": "^11.0.1",
+    "@fastify/rate-limit": "^10.2.2",
+    "@fastify/static": "^10.1.2",
+    "@modelforce/core": "workspace:*",
+    "@modelforce/sdk": "workspace:*",
+    "fastify": "^5.3.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.43",
+    "typescript": "^5.4.0"
+  },
+  "license": "MPL-2.0"
+}

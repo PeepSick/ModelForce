@@ -17,6 +17,9 @@ import { eventsCommand } from "./commands/events.js";
 import { doctorCommand } from "./commands/doctor.js";
 import { configCommand } from "./commands/config.js";
 import { synthesizeCommand } from "./commands/synthesize.js";
+import { quickCommand } from "./commands/quick.js";
+import { playCommand } from "./commands/play.js";
+import { wizardCommand } from "./commands/wizard.js";
 
 const program = new Command();
 
@@ -25,6 +28,12 @@ program
   .description("ModelForce Voice Ecosystem CLI")
   .version("0.1.0");
 
+// Quick commands
+program.addCommand(quickCommand);
+program.addCommand(playCommand);
+program.addCommand(wizardCommand);
+
+// Core commands
 program.addCommand(pullCommand);
 program.addCommand(installCommand);
 program.addCommand(uninstallCommand);
@@ -32,6 +41,8 @@ program.addCommand(voicesCommand);
 program.addCommand(synthesizeCommand);
 program.addCommand(benchmarkCommand);
 program.addCommand(doctorCommand);
+
+// Advanced commands
 program.addCommand(searchCommand);
 program.addCommand(statusCommand);
 program.addCommand(registryCommand);
