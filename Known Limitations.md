@@ -6,7 +6,7 @@ ModelForce Voice Ecosystem - Current Constraints and Workarounds
 
 ### Piper
 
-#### Windows
+#### Windows (Local)
 
 Current Piper Windows binaries may crash with:
 
@@ -14,12 +14,18 @@ Current Piper Windows binaries may crash with:
 STATUS_STACK_BUFFER_OVERRUN (0xC0000409)
 ```
 
-This is a known upstream compatibility issue and is not caused by ModelForce.
+**Test Results (GitHub Actions):**
+- ✅ Linux (ubuntu-latest): Piper 1.2.0 works correctly
+- ✅ Windows (windows-latest): Piper 1.2.0 works correctly
+- ❌ Windows (local): Crashes with 0xC0000409
+
+**Conclusion:** The crash is environment-specific, not a binary or model issue.
 
 **Workaround**
 
 - Use `--mock` for development and testing.
 - Use Linux/macOS, or a compatible Piper build.
+- Check local onnxruntime.dll version and PATH settings.
 
 #### General
 - **Binary required**: Must download via `modelforce pull piper`
