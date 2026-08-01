@@ -36,12 +36,15 @@ jobs:
           cd ~/.modelforce/bin
           curl -L -o piper.tar.gz "https://github.com/rhasspy/piper/releases/download/2023.11.14-2/piper_linux_x86_64.tar.gz"
           tar xzf piper.tar.gz
-          chmod +x piper
+          find . -type f -name "piper" -exec chmod +x {} \;
           ls -la
+          ls -la */
 
       - name: Check Piper version
         run: |
-          ~/.modelforce/bin/piper --version
+          PIPER_BIN=$(find ~/.modelforce/bin -name "piper" -type f -executable | head -1)
+          echo "Found Piper at: $PIPER_BIN"
+          $PIPER_BIN --version
 
       - name: Download test voice
         run: |
@@ -53,7 +56,8 @@ jobs:
 
       - name: Test Piper synthesis
         run: |
-          echo "Hello world, this is a test" | ~/.modelforce/bin/piper \
+          PIPER_BIN=$(find ~/.modelforce/bin -name "piper" -type f -executable | head -1)
+          echo "Hello world, this is a test" | $PIPER_BIN \
             --model ~/.modelforce/voices/piper/en_US-lessac-medium.onnx \
             --output_file ~/.modelforce/test-output.wav
           ls -la ~/.modelforce/test-output.wav
@@ -96,11 +100,13 @@ jobs:
           New-Item -ItemType Directory -Path "$env:USERPROFILE\.modelforce\bin" -Force
           Invoke-WebRequest -Uri "https://github.com/rhasspy/piper/releases/download/2023.11.14-2/piper_windows_amd64.zip" -OutFile "$env:TEMP\piper.zip"
           Expand-Archive -Path "$env:TEMP\piper.zip" -DestinationPath "$env:USERPROFILE\.modelforce\bin" -Force
-          Get-ChildItem "$env:USERPROFILE\.modelforce\bin"
+          Get-ChildItem "$env:USERPROFILE\.modelforce\bin" -Recurse
 
       - name: Check Piper version
         run: |
-          & "$env:USERPROFILE\.modelforce\bin\piper.exe" --version
+          $piperExe = Get-ChildItem "$env:USERPROFILE\.modelforce\bin" -Recurse -Filter "piper.exe" | Select-Object -First 1
+          Write-Host "Found Piper at: $($piperExe.FullName)"
+          & $piperExe.FullName --version
 
       - name: Download test voice
         run: |
@@ -111,10 +117,11 @@ jobs:
 
       - name: Test Piper synthesis
         run: |
+          $piperExe = Get-ChildItem "$env:USERPROFILE\.modelforce\bin" -Recurse -Filter "piper.exe" | Select-Object -First 1
           $inputFile = "$env:TEMP\piper-input.txt"
           Set-Content -Path $inputFile -Value "Hello world, this is a test" -Encoding ASCII
           
-          $process = Start-Process -FilePath "$env:USERPROFILE\.modelforce\bin\piper.exe" `
+          $process = Start-Process -FilePath $piperExe.FullName `
             -ArgumentList "--model", "$env:USERPROFILE\.modelforce\voices\piper\en_US-lessac-medium.onnx", `
                           "--output_file", "$env:USERPROFILE\.modelforce\test-output.wav" `
             -RedirectStandardInput $inputFile `
