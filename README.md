@@ -95,14 +95,34 @@ Audio (WAV)
 ## Quick Commands
 
 ```bash
-modelforce doctor                    # System health check
-modelforce pull piper               # Install Piper provider
+# Quick commands
+modelforce quick "Hello"              # Quick synthesis
+modelforce play "Hello"               # Synthesize and play
+modelforce wizard                     # Interactive setup
+
+# Core commands
+modelforce doctor                     # System health check
+modelforce pull piper                 # Install Piper provider
 modelforce pull voice/piper/en_US-lessac-medium  # Download voice
-modelforce synthesize "Hello"       # Generate audio
-modelforce voices                   # List installed voices
-modelforce benchmark                # Performance test
-modelforce compare                  # Compare providers
+modelforce synthesize "Hello"         # Generate audio
+modelforce voices                     # List installed voices
+modelforce benchmark                  # Performance test
+modelforce compare                    # Compare providers
 ```
+
+## Packages
+
+| Package | Description |
+|---------|-------------|
+| `@modelforce/core` | Core types and interfaces |
+| `@modelforce/sdk` | Simple API for text-to-speech |
+| `@modelforce/server` | REST API server |
+| `@modelforce/web` | React Web UI |
+| `@modelforce/cli` | Command-line interface |
+| `@modelforce/runtime` | Execution engine |
+| `@modelforce/provider-piper` | Piper TTS provider |
+| `@modelforce/provider-kokoro` | Kokoro TTS provider |
+| `@modelforce/provider-xtts` | XTTS TTS provider |
 
 ## For Developers
 
