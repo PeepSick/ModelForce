@@ -45,6 +45,11 @@ jobs:
           PIPER_BIN=$(find ~/.modelforce/bin -name "piper" -type f -executable | head -1)
           echo "Found Piper at: $PIPER_BIN"
           $PIPER_BIN --version
+          echo "--- DLL Versions ---"
+          find ~/.modelforce/bin -name "*.dll" -o -name "*.so" | while read dll; do
+            echo "File: $dll"
+            file "$dll"
+          done
 
       - name: Download test voice
         run: |
@@ -108,6 +113,11 @@ jobs:
           $piperExe = Get-ChildItem "$env:USERPROFILE\.modelforce\bin" -Recurse -Filter "piper.exe" | Select-Object -First 1
           Write-Host "Found Piper at: $($piperExe.FullName)"
           & $piperExe.FullName --version
+          Write-Host "--- DLL Versions ---"
+          Get-ChildItem "$env:USERPROFILE\.modelforce\bin" -Recurse -Filter "*.dll" | ForEach-Object {
+            Write-Host "File: $($_.FullName)"
+            Write-Host "Version: $($_.VersionInfo.ProductVersion)"
+          }
 
       - name: Download test voice
         run: |
