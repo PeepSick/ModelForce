@@ -16,6 +16,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Log Linux environment
+        run: |
+          echo "=== Linux Environment ==="
+          uname -a
+          cat /etc/os-release | head -5
+          echo "=== UCRT/glibc ==="
+          ldd --version 2>&1 | head -1
+          echo "=== Piper binary deps ==="
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -45,7 +54,7 @@ jobs:
           PIPER_BIN=$(find ~/.modelforce/bin -name "piper" -type f -executable | head -1)
           echo "Found Piper at: $PIPER_BIN"
           $PIPER_BIN --version
-          echo "--- DLL Versions ---"
+          echo "--- Library Versions ---"
           find ~/.modelforce/bin -name "*.dll" -o -name "*.so" | while read dll; do
             echo "File: $dll"
             file "$dll"
@@ -86,6 +95,19 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Log Windows environment
+        run: |
+          Write-Host "=== Windows Environment ==="
+          Write-Host "OS Version: $([System.Environment]::OSVersion.Version)"
+          Write-Host "OS Build: $((Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion').CurrentBuild)"
+          Write-Host "UBR: $((Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion').UBR)"
+          systeminfo | Select-String "OS Name|OS Version|System Type"
+          Write-Host "=== UCRT Version ==="
+          $ucrt = Get-Item "C:\Windows\System32\ucrtbase.dll"
+          Write-Host "ucrtbase.dll: $($ucrt.VersionInfo.FileVersion) ($($ucrt.Length) bytes)"
+          Write-Host "=== VC++ Runtime ==="
+          Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x64" -ErrorAction SilentlyContinue | Select-Object Major, Minor, Bld
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
