@@ -7,7 +7,7 @@ One runtime. Multiple TTS providers.
 
 Switch providers without changing your application.
 
-## Quick Start (Development)
+## Getting Started
 
 ```bash
 git clone https://github.com/PeepSick/ModelForce.git
@@ -22,23 +22,27 @@ pnpm --filter @modelforce/cli start -- synthesize "Hello"
 
 Done. You have `hello.wav`.
 
-## Web UI & Server
-
-```bash
-# Start the REST API server
-pnpm dev:server
-
-# Start the React web interface
-pnpm dev:web
-```
-
 ## Why ModelForce?
 
-AI models change.
+| Without ModelForce | With ModelForce |
+|--------------------|-----------------|
+| Each provider has different API | One unified API |
+| Separate auth for each | Single auth system |
+| Separate configs | One config format |
+| Vendor lock-in | Provider abstraction |
+| Manual installation | One command install |
 
-Your application shouldn't.
+```
+Your App
+    ↓
+ModelForce SDK
+    ↓
+Provider (piper / kokoro / xtts)
+    ↓
+Audio (WAV)
+```
 
-ModelForce provides a stable runtime over an evolving TTS ecosystem.
+Change the provider. Your code stays the same.
 
 ## Switch Providers
 
@@ -48,77 +52,60 @@ modelforce synthesize "Hello" --provider kokoro
 modelforce synthesize "Hello" --provider xtts
 ```
 
-Same code. Different engine. One flag.
+> `--mock` generates a dial tone instead of speech. Useful for testing without a real provider.
 
-> `--mock` generates a short dial tone instead of synthesized speech. Useful for testing without a real provider.
+## Web UI & Server
 
-## What is ModelForce?
+```bash
+# REST API server
+pnpm dev:server
 
-ModelForce is an open-source infrastructure layer for self-hosted text-to-speech systems. It standardizes provider integration, installation, runtime execution, and developer tooling while allowing applications to switch between TTS engines with minimal changes.
-
-ModelForce is NOT:
-
-- a TTS engine
-- an LLM framework
-- an AI agent
-- a chatbot
-
-ModelForce IS:
-
-- runtime
-- provider abstraction
-- registry
-- installer
-- execution infrastructure
+# React web interface
+pnpm dev:web
+```
 
 ## Architecture
 
 ```
-CLI
- │
- ▼
-Execution Engine
- │
- ▼
-Provider Registry
- │
- ▼
-Provider
- │
- ▼
-Backend Adapter
- │
- ▼
-Piper CLI / Kokoro CLI / XTTS HTTP
- │
- ▼
-Audio (WAV)
+Client (CLI / SDK / Web UI)
+         ↓
+    ModelForce Gateway
+         ↓
+    Provider Registry
+         ↓
+    Provider Adapter
+         ↓
+    Backend (Piper CLI / Kokoro CLI / XTTS HTTP)
+         ↓
+      Audio (WAV)
 ```
 
 ## Providers
 
-| Provider | Local | Streaming | Maturity |
-|----------|-------|-----------|----------|
-| Piper | ✅ | ⚠️ | Stable |
-| Kokoro | ✅ | ⚠️ | Beta |
-| XTTS | ⚠️ | ✅ | Beta |
+| Provider | Status | Notes |
+|----------|--------|-------|
+| Piper | ✅ Stable | Local, offline |
+| Kokoro | ✅ Stable | Local, offline |
+| XTTS | ⚠️ Beta | HTTP backend |
+
+## Health Matrix
+
+| Platform | Status |
+|----------|--------|
+| Linux | ✅ All providers work |
+| Windows | ✅ Piper works |
+| Windows Build 26200 | ⚠️ [Known issue](https://github.com/OHF-Voice/piper1-gpl/issues/260) |
 
 ## Quick Commands
 
 ```bash
-# Quick commands
-modelforce quick "Hello"              # Quick synthesis
-modelforce play "Hello"               # Synthesize and play
-modelforce wizard                     # Interactive setup
-
-# Core commands
 modelforce doctor                     # System health check
 modelforce pull piper                 # Install Piper provider
 modelforce pull voice/piper/en_US-lessac-medium  # Download voice
 modelforce synthesize "Hello"         # Generate audio
 modelforce voices                     # List installed voices
-modelforce benchmark                  # Performance test
-modelforce compare                    # Compare providers
+modelforce quick "Hello"              # Quick synthesis
+modelforce play "Hello"               # Synthesize and play
 ```
 
 ## Packages
@@ -136,29 +123,12 @@ modelforce compare                    # Compare providers
 ## For Developers
 
 ```bash
-# Clone
-git clone https://github.com/modelforce/modelforce.git
-cd modelforce
-
-# Install
+git clone https://github.com/PeepSick/ModelForce.git
+cd ModelForce
 pnpm install
 pnpm build
-
-# Test
 pnpm test
 ```
-
-## Documentation
-
-- [Installation Guide](docs/installation.md)
-- [Provider Setup](docs/providers.md)
-- [Voice Management](docs/voices.md)
-- [Architecture](Architecture.md)
-- [Changelog](CHANGELOG.md)
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## Roadmap
 
@@ -167,26 +137,11 @@ See [CONTRIBUTING.md](CONTRIBUTING.md)
 - **v0.3** - Speech Runtime
 - **v1.0** - Stable API
 
-## npm Installation (Coming Soon)
+## Documentation
 
-After the first public release, installation will be as simple as:
-
-```bash
-npm install -g @modelforce/cli
-modelforce doctor
-modelforce pull piper
-modelforce synthesize "Hello"
-```
-
-## Testing
-
-```bash
-# Run all tests
-pnpm test
-
-# Test Piper provider specifically
-# (CI runs on both Linux and Windows)
-```
+- [Architecture](Architecture.md)
+- [Changelog](CHANGELOG.md)
+- [Known Limitations](Known%20Limitations.md)
 
 ## License
 
