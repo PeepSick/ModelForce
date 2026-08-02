@@ -2,6 +2,7 @@
 
 [![CI](https://github.com/PeepSick/ModelForce/actions/workflows/ci.yml/badge.svg)](https://github.com/PeepSick/ModelForce/actions)
 [![Test Piper Provider](https://github.com/PeepSick/ModelForce/actions/workflows/test-piper.yml/badge.svg)](https://github.com/PeepSick/ModelForce/actions/workflows/test-piper.yml)
+[![Tests](https://img.shields.io/badge/tests-91%20passing-brightgreen)]()
 
 **One API for local and remote text-to-speech providers.**
 
@@ -46,9 +47,9 @@ Change the provider. Your code didn't.
 
 | Provider | Type | Status |
 |----------|------|--------|
-| Piper | Local | ✅ |
-| Kokoro | Local | ✅ |
-| XTTS | Remote | ✅ |
+| Piper | Local | ✅ Full |
+| Kokoro | Local | ⚠️ Partial (CLI interface) |
+| XTTS | Remote | ⚠️ Partial (HTTP backend required) |
 
 ## Getting Started
 
@@ -93,6 +94,13 @@ modelforce play "Hello"               # Synthesize and play
 | `@modelforce/server` | REST API server |
 | `@modelforce/web` | React Web UI |
 | `@modelforce/cli` | Command-line interface |
+| `@modelforce/core` | Core types, health monitoring, event bus |
+| `@modelforce/runtime` | Execution engine with parallel synthesis |
+| `@modelforce/character` | Character profiles and voice presets |
+| `@modelforce/speech` | Speech runtime (LeoVoice) |
+| `@modelforce/plugin` | Plugin system with lifecycle management |
+| `@modelforce/registry` | Provider and voice registry |
+| `@modelforce/installer` | Provider installation management |
 | `@modelforce/provider-piper` | Piper TTS provider |
 | `@modelforce/provider-kokoro` | Kokoro TTS provider |
 | `@modelforce/provider-xtts` | XTTS TTS provider |
