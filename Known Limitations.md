@@ -101,9 +101,8 @@ STATUS_STACK_BUFFER_OVERRUN (0xC0000409)
 ## Development Limitations
 
 ### Testing
-- **Mock only**: Real provider tests require binaries
-- **No CI**: No automated testing pipeline
-- **No coverage**: No test coverage reporting
+- **Mock only for most providers**: Real provider tests require binaries (Piper is the exception — CI installs and runs it for real, see Provider Limitations above)
+- **No coverage reporting**: CI runs build/test/lint (`ci.yml`) plus a dedicated Piper integration run on Linux and Windows (`test-piper.yml`), but there's no test coverage tracking
 
 ### Build
 - **TypeScript only**: No JavaScript output
@@ -145,11 +144,9 @@ modelforce pull voice/piper/en_US-lessac-low
 
 ### For Configuration
 ```bash
-# Edit config directly
+# Edit config directly — no environment variable override exists yet (see
+# Provider Config limitations above), so this is the only way to change it
 vim ~/.modelforce/modelforce.json
-
-# Or use environment variable
-export MODelforce_PROVIDER=piper
 ```
 
 ### For Performance
@@ -171,4 +168,4 @@ See [Roadmap.md](Roadmap.md) for planned features that address these limitations
 ## Reporting Issues
 
 Found a limitation not listed? Open an issue at:
-https://github.com/modelforce/modelforce/issues
+https://github.com/PeepSick/ModelForce/issues

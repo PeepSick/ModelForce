@@ -39,7 +39,6 @@ ModelForce Voice Ecosystem - Planned Features
 - [ ] Integration tests for Kokoro
 - [ ] Integration tests for XTTS
 - [ ] Benchmark comparison reports
-- [ ] CI/CD pipeline
 
 ---
 
